@@ -21,7 +21,7 @@ AddEventHandler('nema_carwash:WashVehicle', function()
     local ticket = exports.ox_inventory:Search('count','wash_ticket')
     local money = exports.ox_inventory:Search('count','money')
 
-    if IsPedSittingInAnyVehicle(ped) then
+    if IsPedSittingInAnyVehicle(cache.ped) then
         TriggerEvent('nema_carwash:Notify', locale('title'), locale('car_inside'))
         return
     end
