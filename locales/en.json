@@ -1,0 +1,11 @@
+{
+    "title": "Car Wash",
+    "price_wash_ticket": "Vehicle wash %s ticket",
+    "price_wash": "Wash vehicle for $%s",
+    "washing_veh": "Your vehicle is being washed",
+    "need_ticket": "You need %s wash ticket to wash the vehicle, go to the nearest store for a wash ticket",
+    "need_money": "You need $%s to wash the car",
+    "car_inside": "You cannot be inside the vehicle",
+    "finish_wash": "Your vehicle has been washed. Thank you for visiting us.",
+    "close_veh": "There are no nearby vehicles."
+}
