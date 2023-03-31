@@ -13,6 +13,60 @@ CreateThread(function()
             AddTextComponentString(v.label)
             EndTextCommandSetBlipName(blip)
         end
+        if Wash.RadialMenu then
+            lib.zones.box({
+                coords = v.pos,
+                size = v.size,
+                rotation = v.heading,
+                debug = v.debug,
+                onEnter = function()
+                    lib.showTextUI(locale('pulse_key'), {
+                        position = "top-center",
+                        icon = Wash.targetIcon,
+                        style = {
+                            borderRadius = 0,
+                            backgroundColor = '#48BB78',
+                            color = 'white'
+                        }
+                    })
+                    if Wash.Ticket then
+                        lib.addRadialItem({
+                            {
+                                id = 'carwash',
+                                label = locale('price_wash_ticket', Wash.TicketAmount),
+                                icon = Wash.targetIcon,
+                                onSelect = function()
+                                    if IsPedInAnyVehicle(PlayerPedId(), false) then
+                                        TriggerEvent('nema_carwash:Notify', locale('title'), locale('car_inside'))
+                                    else
+                                        TriggerEvent('nema_carwash:WashVehicle')
+                                    end
+                                end
+                            },
+                        })
+                    else
+                        lib.addRadialItem({
+                            {
+                                id = 'carwash',
+                                label = locale('price_wash', Wash.PriceAmount),
+                                icon = Wash.targetIcon,
+                                onSelect = function()
+                                    if IsPedInAnyVehicle(PlayerPedId(), false) then
+                                        TriggerEvent('nema_carwash:Notify', locale('title'), locale('car_inside'))
+                                    else
+                                        TriggerEvent('nema_carwash:WashVehicle')
+                                    end
+                                end
+                            },
+                        })
+                    end
+                end,
+                onExit = function()
+                    lib.removeRadialItem('carwash')
+                    lib.hideTextUI()
+                end
+            })
+        end
     end
 end)
 
@@ -134,28 +188,30 @@ AddEventHandler('nema_carwash:WashVehicle', function()
     end
 end)
 
-if Wash.Ticket then
-    local models = {262335250}
-    local options = {
-        {
-            event = "nema_carwash:WashVehicle",
-            icon = Wash.targetIcon,
-            label = locale('price_wash_ticket', Wash.TicketAmount),
-            distance = Wash.TargetDistance
-        },
-    }
+if not Wash.RadialMenu then
+    if Wash.Ticket then
+        local models = {262335250}
+        local options = {
+            {
+                event = "nema_carwash:WashVehicle",
+                icon = Wash.targetIcon,
+                label = locale('price_wash_ticket', Wash.TicketAmount),
+                distance = Wash.TargetDistance
+            },
+        }
 
-    exports.ox_target:addModel(models, options)
-else
-    local models = {262335250}
-    local options = {
-        {
-            event = "nema_carwash:WashVehicle",
-            icon = Wash.targetIcon,
-            label = locale('price_wash', Wash.PriceAmount),
-            distance = Wash.TargetDistance
-        },
-    }
+        exports.ox_target:addModel(models, options)
+    else
+        local models = {262335250}
+        local options = {
+            {
+                event = "nema_carwash:WashVehicle",
+                icon = Wash.targetIcon,
+                label = locale('price_wash', Wash.PriceAmount),
+                distance = Wash.TargetDistance
+            },
+        }
 
-    exports.ox_target:addModel(models, options)
+        exports.ox_target:addModel(models, options)
+    end
 end
