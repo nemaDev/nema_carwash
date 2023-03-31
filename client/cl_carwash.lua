@@ -17,13 +17,11 @@ CreateThread(function()
 end)
 
 AddEventHandler('nema_carwash:WashVehicle', function()
-    local ped = cache.ped
-    local pedcoords = GetEntityCoords(ped)
-    local vehicle = lib.getClosestVehicle(pedcoords, Wash.VehicleDistance, true)
+    local vehicle = lib.getClosestVehicle(GetEntityCoords(cache.ped), Wash.VehicleDistance, true)
     local ticket = exports.ox_inventory:Search('count','wash_ticket')
     local money = exports.ox_inventory:Search('count','money')
 
-    if IsPedSittingInAnyVehicle(ped) then
+    if IsPedSittingInAnyVehicle(cache.ped) then
         TriggerEvent('nema_carwash:Notify', locale('title'), locale('car_inside'))
         return
     end
