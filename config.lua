@@ -2,8 +2,10 @@ lib.locale()
 
 Wash = {}
 
+Wash.RadialMenu = true -- if you want to use ox_target set this to false
 Wash.WithAnimation = true -- water falling on the vehicle
 Wash.Ticket = false  -- if you wish to pay with money set to false
+
 Wash.Duration = 5000 -- duration of vehicle washing
 Wash.PriceAmount = 2000 -- Price for washing the vehicle using money (Wash.Ticket = false)
 Wash.TicketAmount = 1 -- amount to be removed from the ticket
@@ -13,51 +15,58 @@ Wash.TargetDistance = 2 -- ox target interaction distance
 
 Wash.Blips = {
     {
-        pos = vector3(-698.9388, -698.9388, -698.9388 ),
-        icon = 100,
-        color = 4,
-        scale = 1.0,
-        label = locale('title'), -- you can change to any name example: label = 'mi carwash',
-        blip = false
-    },
-    {
-        pos = vector3(24.9860, -1392.2036, 29.3339 ),
+        pos = vec3(169.25, -1717.0, 29.3016),
         icon = 100,
         color = 4,
         scale = 1.0,
         label = locale('title'),
+        size = vec3(6.0, 7.0, 2),
+        heading = 50.5,
+        debug = false,
+        blip = true,
+    },
+    {
+        pos = vec3(24.9860, -1392.2036, 29.3339 ),
+        icon = 100,
+        color = 4,
+        scale = 1.0,
+        label = locale('title'),
+        size = vec3(6.0, 7.0, 2),
+        heading = 268.71707,
+        debug = false,
+        blip = true,
+    },
+    {
+        pos = vec3(1368.0, 3602.0, 35.0),
+        icon = 100,
+        color = 4,
+        scale = 1.0,
+        label = locale('title'),
+        size = vec3(5.0, 9.0, 2),
+        heading = 110.5,
+        debug = false,
         blip = true
     },
     {
-        pos = vector3(170.4428, -1718.6241, 29.3016 ),
+        pos = vec3(1696.0, 4916.0, 42.0),
         icon = 100,
         color = 4,
         scale = 1.0,
         label = locale('title'),
+        size = vec3(5.0, 7.0, 2),
+        heading = 55.5,
+        debug = false,
         blip = true
     },
     {
-        pos = vector3(1365.0729, 3604.1377, 34.8182 ),
+        pos = vec3(-216.0, 6214.0, 31.0),
         icon = 100,
         color = 4,
         scale = 1.0,
         label = locale('title'),
-        blip = true
-    },
-    {
-        pos = vector3(1698.3536, 4916.9810, 42.0781 ),
-        icon = 100,
-        color = 4,
-        scale = 1.0,
-        label = locale('title'),
-        blip = true
-    },
-    {
-        pos = vector3(-216.5613, 6216.5005, 31.4910 ),
-        icon = 100,
-        color = 4,
-        scale = 1.0,
-        label = locale('title'),
+        size = vec3(7.0, 6.0, 2),
+        heading = 45.5,
+        debug = false,
         blip = true
     },
 }
