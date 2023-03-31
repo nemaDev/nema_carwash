@@ -7,5 +7,6 @@
     "need_money": "You need $%s to wash the car",
     "car_inside": "You cannot be inside the vehicle",
     "finish_wash": "Your vehicle has been washed. Thank you for visiting us.",
+    "pulse_key": "[Z] - Wash to vehicle",
     "close_veh": "There are no nearby vehicles."
 }

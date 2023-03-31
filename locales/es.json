@@ -1,11 +1,12 @@
 {
     "title": "Auto Lavado",
-    "price_wash_ticket": "Lavado de vehículo %s ticket",
+    "price_wash_ticket": "Lavar vehículo %s ticket",
     "price_wash": "Lavar vehículo por $%s",
     "washing_veh": "Se está lavando su vehículo",
     "need_ticket": "Necesitas %s ticket de lavado para poder lavar el vehiculo, ve a una tienda mas cercana por un ticket de lavado",
     "need_money": "Necesitas $%s para poder lavar el auto",
     "car_inside": "No puedes estar en el vehículo",
     "finish_wash": "Su vehículo ha sido lavado Gracias por visitarnos",
+    "pulse_key": "[Z] - Para lavar vehiculo",
     "close_veh": "No hay vehículos cercanos."
 }
