@@ -4,7 +4,7 @@ Wash = {}
 
 Wash.RadialMenu = true -- if you want to use ox_target set this to false
 Wash.WithAnimation = true -- water falling on the vehicle
-Wash.Ticket = true  -- if you wish to pay with money set to false
+Wash.Ticket = false  -- if you wish to pay with money set to false
 
 Wash.Duration = 10000 -- duration of vehicle washing
 Wash.PriceAmount = 300 -- Price for washing the vehicle using money (Wash.Ticket = false)
@@ -14,7 +14,7 @@ Wash.targetIcon = 'fas fa-hands-bubbles'
 Wash.TargetDistance = 2 -- ox target interaction distance
 
 Wash.Blips = {
-    {
+    ['1'] = {
         pos = vec3(169.25, -1717.0, 29.3016),
         icon = 100,
         color = 4,
@@ -24,8 +24,16 @@ Wash.Blips = {
         heading = 50.5,
         debug = false,
         blip = true,
+
+    },{
+        pos = vec3(174.75, -1736.8, 29.0),
+        size = vec3(7.0, 6.5, 2),
+        heading = 0.0,
+        debug = false,
+        blip = false,
     },
-    {
+
+    ['2'] = {
         pos = vec3(24.4675, -1391.8799, 29.3333),
         icon = 100,
         color = 4,
@@ -36,7 +44,8 @@ Wash.Blips = {
         debug = false,
         blip = true,
     },
-    {
+
+    ['3'] = {
         pos = vec3(1368.0, 3602.0, 35.0),
         icon = 100,
         color = 4,
@@ -47,7 +56,8 @@ Wash.Blips = {
         debug = false,
         blip = true
     },
-    {
+
+    ['4'] = {
         pos = vec3(1696.0, 4916.0, 42.0),
         icon = 100,
         color = 4,
@@ -58,7 +68,8 @@ Wash.Blips = {
         debug = false,
         blip = true
     },
-    {
+
+    ['5'] = {
         pos = vec3(-216.0, 6214.0, 31.0),
         icon = 100,
         color = 4,

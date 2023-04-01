@@ -112,12 +112,12 @@ AddEventHandler('nema_carwash:EmpezarLavado', function()
         TriggerEvent('nema_carwash:Notify', locale('title'), locale('car_inside'))
         return
     end
-    if Wash.Ticket then
-        if ticket >= Wash.TicketAmount then
+    if vehicle == nil then
+        TriggerEvent('nema_carwash:Notify', locale('title'), locale('close_veh'))
+    else
+        if Wash.Ticket then
+            if ticket >= Wash.TicketAmount then
 
-            if vehicle == nil then
-                TriggerEvent('nema_carwash:Notify', locale('title'), locale('close_veh'))
-            else
                 TriggerServerEvent('nema_carwash:PagarLavado', ticket)
                 Lavando = true
                 if Wash.WithAnimation then
@@ -163,18 +163,14 @@ AddEventHandler('nema_carwash:EmpezarLavado', function()
                         TriggerEvent('nema_carwash:Notify', locale('title'), locale('finish_wash'))
                     end
                 end
+            else
+                TriggerEvent('nema_carwash:Notify', locale('title'), locale('need_ticket', Wash.TicketAmount))
             end
         else
-            TriggerEvent('nema_carwash:Notify', locale('title'), locale('need_ticket', Wash.TicketAmount))
-        end
-    else
-        if money >= Wash.PriceAmount then
+            if money >= Wash.PriceAmount then
 
-            if vehicle == nil then
-                TriggerEvent('nema_carwash:Notify', locale('title'), locale('close_veh'))
-            else
                 TriggerServerEvent('nema_carwash:PagarLavado', money)
-
+                Lavando = true
                 if Wash.WithAnimation then
                     local vehcoords = GetEntityCoords(vehicle)
                     local dist = 'cut_family2'
@@ -218,9 +214,9 @@ AddEventHandler('nema_carwash:EmpezarLavado', function()
                         TriggerEvent('nema_carwash:Notify', locale('title'), locale('finish_wash'))
                     end
                 end
+            else
+                TriggerEvent('nema_carwash:Notify', locale('title'), locale('need_money', Wash.PriceAmount))
             end
-        else
-            TriggerEvent('nema_carwash:Notify', locale('title'), locale('need_money', Wash.PriceAmount))
         end
     end
 end)
