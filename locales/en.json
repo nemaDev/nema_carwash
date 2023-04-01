@@ -8,5 +8,6 @@
     "car_inside": "You cannot be inside the vehicle",
     "finish_wash": "Your vehicle has been washed. Thank you for visiting us.",
     "pulse_key": "[Z] - Wash to vehicle",
+    "washing_vehicle": "Ya estas lavando tu vehiculo ESPERA!",
     "close_veh": "There are no nearby vehicles."
 }
