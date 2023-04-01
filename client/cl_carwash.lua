@@ -1,5 +1,7 @@
 lib.locale()
 
+local Lavando = false
+
 CreateThread(function()
     for k, v in pairs(Wash.Blips) do
         if v.blip then
@@ -21,7 +23,7 @@ CreateThread(function()
                 debug = v.debug,
                 onEnter = function()
                     lib.showTextUI(locale('pulse_key'), {
-                        position = "top-center",
+                        position = "right-center",
                         icon = Wash.targetIcon,
                         style = {
                             borderRadius = 0,
@@ -36,11 +38,7 @@ CreateThread(function()
                                 label = locale('price_wash_ticket', Wash.TicketAmount),
                                 icon = Wash.targetIcon,
                                 onSelect = function()
-                                    if IsPedInAnyVehicle(PlayerPedId(), false) then
-                                        TriggerEvent('nema_carwash:Notify', locale('title'), locale('car_inside'))
-                                    else
-                                        TriggerEvent('nema_carwash:WashVehicle')
-                                    end
+                                    TriggerEvent('nema_carwash:Verificar')
                                 end
                             },
                         })
@@ -51,11 +49,7 @@ CreateThread(function()
                                 label = locale('price_wash', Wash.PriceAmount),
                                 icon = Wash.targetIcon,
                                 onSelect = function()
-                                    if IsPedInAnyVehicle(PlayerPedId(), false) then
-                                        TriggerEvent('nema_carwash:Notify', locale('title'), locale('car_inside'))
-                                    else
-                                        TriggerEvent('nema_carwash:WashVehicle')
-                                    end
+                                    TriggerEvent('nema_carwash:Verificar')
                                 end
                             },
                         })
@@ -68,14 +62,53 @@ CreateThread(function()
             })
         end
     end
+    if not Wash.RadialMenu then
+        if Wash.Ticket then
+            local models = {262335250}
+            local options = {
+                {
+                    event = "nema_carwash:Verificar",
+                    icon = Wash.targetIcon,
+                    label = locale('price_wash_ticket', Wash.TicketAmount),
+                    distance = Wash.TargetDistance
+                },
+            }
+    
+            exports.ox_target:addModel(models, options)
+        else
+            local models = {262335250}
+            local options = {
+                {
+                    event = "nema_carwash:Verificar",
+                    icon = Wash.targetIcon,
+                    label = locale('price_wash', Wash.PriceAmount),
+                    distance = Wash.TargetDistance
+                },
+            }
+    
+            exports.ox_target:addModel(models, options)
+        end
+    end
 end)
 
-AddEventHandler('nema_carwash:WashVehicle', function()
+AddEventHandler('nema_carwash:Verificar', function()
+    if Lavando then
+        return lib.notify({
+            title = 'Error',
+            description = locale('washing_vehicle'),
+            type = 'error'
+        })
+    end
+
+    TriggerEvent('nema_carwash:EmpezarLavado')
+end)
+
+AddEventHandler('nema_carwash:EmpezarLavado', function()
     local vehicle = lib.getClosestVehicle(GetEntityCoords(cache.ped), Wash.VehicleDistance, true)
     local ticket = exports.ox_inventory:Search('count','wash_ticket')
     local money = exports.ox_inventory:Search('count','money')
 
-    if IsPedSittingInAnyVehicle(cache.ped) then
+    if IsPedInAnyVehicle(cache.ped, false) then
         TriggerEvent('nema_carwash:Notify', locale('title'), locale('car_inside'))
         return
     end
@@ -85,8 +118,8 @@ AddEventHandler('nema_carwash:WashVehicle', function()
             if vehicle == nil then
                 TriggerEvent('nema_carwash:Notify', locale('title'), locale('close_veh'))
             else
-                TriggerServerEvent('nema_carwash:PayWash', ticket)
-
+                TriggerServerEvent('nema_carwash:PagarLavado', ticket)
+                Lavando = true
                 if Wash.WithAnimation then
                     local vehcoords = GetEntityCoords(vehicle)
                     local dist = 'cut_family2'
@@ -96,7 +129,7 @@ AddEventHandler('nema_carwash:WashVehicle', function()
                         Wait(1)
                     end
                     UseParticleFxAssetNextCall(dist)
-                    local particle = StartParticleFxLoopedAtCoord(fxName, vehcoords, 0.0, 0.0, 0.0, 8.0, false, false, false, 0)
+                    local particula = StartParticleFxLoopedAtCoord(fxName, vehcoords, 0.0, 0.0, 0.0, 8.0, false, false, false, 0)
                     if lib.progressBar({
                             duration = Wash.Duration,
                             label = locale('washing_veh'),
@@ -107,9 +140,10 @@ AddEventHandler('nema_carwash:WashVehicle', function()
                             }
                         })
                     then
-                        StopParticleFxLooped(particle, false)
+                        StopParticleFxLooped(particula, false)
                         SetVehicleDirtLevel(vehicle, 0.0)
                         WashDecalsFromVehicle(vehicle, 1.0)
+                        Lavando = false
                         TriggerEvent('nema_carwash:Notify', locale('title'), locale('finish_wash'))
                     end
                 else
@@ -125,6 +159,7 @@ AddEventHandler('nema_carwash:WashVehicle', function()
                     then
                         SetVehicleDirtLevel(vehicle, 0.0)
                         WashDecalsFromVehicle(vehicle, 1.0)
+                        Lavando = false
                         TriggerEvent('nema_carwash:Notify', locale('title'), locale('finish_wash'))
                     end
                 end
@@ -138,7 +173,7 @@ AddEventHandler('nema_carwash:WashVehicle', function()
             if vehicle == nil then
                 TriggerEvent('nema_carwash:Notify', locale('title'), locale('close_veh'))
             else
-                TriggerServerEvent('nema_carwash:PayWash', money)
+                TriggerServerEvent('nema_carwash:PagarLavado', money)
 
                 if Wash.WithAnimation then
                     local vehcoords = GetEntityCoords(vehicle)
@@ -149,7 +184,7 @@ AddEventHandler('nema_carwash:WashVehicle', function()
                         Wait(1)
                     end
                     UseParticleFxAssetNextCall(dist)
-                    local particle = StartParticleFxLoopedAtCoord(fxName, vehcoords, 0.0, 0.0, 0.0, 8.0, false, false, false, 0)
+                    local particula = StartParticleFxLoopedAtCoord(fxName, vehcoords, 0.0, 0.0, 0.0, 8.0, false, false, false, 0)
                     if lib.progressBar({
                             duration = Wash.Duration,
                             label = locale('washing_veh'),
@@ -160,9 +195,10 @@ AddEventHandler('nema_carwash:WashVehicle', function()
                             }
                         })
                     then
-                        StopParticleFxLooped(particle, false)
+                        StopParticleFxLooped(particula, false)
                         SetVehicleDirtLevel(vehicle, 0.0)
                         WashDecalsFromVehicle(vehicle, 1.0)
+                        Lavando = false
                         TriggerEvent('nema_carwash:Notify', locale('title'), locale('finish_wash'))
                     end
                 else
@@ -178,6 +214,7 @@ AddEventHandler('nema_carwash:WashVehicle', function()
                     then
                         SetVehicleDirtLevel(vehicle, 0.0)
                         WashDecalsFromVehicle(vehicle, 1.0)
+                        Lavando = false
                         TriggerEvent('nema_carwash:Notify', locale('title'), locale('finish_wash'))
                     end
                 end
@@ -187,31 +224,3 @@ AddEventHandler('nema_carwash:WashVehicle', function()
         end
     end
 end)
-
-if not Wash.RadialMenu then
-    if Wash.Ticket then
-        local models = {262335250}
-        local options = {
-            {
-                event = "nema_carwash:WashVehicle",
-                icon = Wash.targetIcon,
-                label = locale('price_wash_ticket', Wash.TicketAmount),
-                distance = Wash.TargetDistance
-            },
-        }
-
-        exports.ox_target:addModel(models, options)
-    else
-        local models = {262335250}
-        local options = {
-            {
-                event = "nema_carwash:WashVehicle",
-                icon = Wash.targetIcon,
-                label = locale('price_wash', Wash.PriceAmount),
-                distance = Wash.TargetDistance
-            },
-        }
-
-        exports.ox_target:addModel(models, options)
-    end
-end
