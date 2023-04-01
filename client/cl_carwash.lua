@@ -38,7 +38,7 @@ CreateThread(function()
                                 label = locale('price_wash_ticket', Wash.TicketAmount),
                                 icon = Wash.targetIcon,
                                 onSelect = function()
-                                    TriggerEvent('nema_carwash:Verificar')
+                                    TriggerEvent('nema_carwash:EmpezarLavado')
                                 end
                             },
                         })
@@ -49,7 +49,7 @@ CreateThread(function()
                                 label = locale('price_wash', Wash.PriceAmount),
                                 icon = Wash.targetIcon,
                                 onSelect = function()
-                                    TriggerEvent('nema_carwash:Verificar')
+                                    TriggerEvent('nema_carwash:EmpezarLavado')
                                 end
                             },
                         })
@@ -67,7 +67,7 @@ CreateThread(function()
             local models = {262335250}
             local options = {
                 {
-                    event = "nema_carwash:Verificar",
+                    event = "nema_carwash:EmpezarLavado",
                     icon = Wash.targetIcon,
                     label = locale('price_wash_ticket', Wash.TicketAmount),
                     distance = Wash.TargetDistance
@@ -79,7 +79,7 @@ CreateThread(function()
             local models = {262335250}
             local options = {
                 {
-                    event = "nema_carwash:Verificar",
+                    event = "nema_carwash:EmpezarLavado",
                     icon = Wash.targetIcon,
                     label = locale('price_wash', Wash.PriceAmount),
                     distance = Wash.TargetDistance
@@ -91,22 +91,18 @@ CreateThread(function()
     end
 end)
 
-AddEventHandler('nema_carwash:Verificar', function()
-    if Lavando then
-        return lib.notify({
-            title = 'Error',
-            description = locale('washing_vehicle'),
-            type = 'error'
-        })
-    end
-
-    TriggerEvent('nema_carwash:EmpezarLavado')
-end)
-
 AddEventHandler('nema_carwash:EmpezarLavado', function()
     local vehicle = lib.getClosestVehicle(GetEntityCoords(cache.ped), Wash.VehicleDistance, true)
     local ticket = exports.ox_inventory:Search('count','wash_ticket')
     local money = exports.ox_inventory:Search('count','money')
+
+    if Lavando then
+        return lib.notify({
+            title = locale('title'),
+            description = locale('washing_vehicle'),
+            type = 'error'
+        })
+    end
 
     if IsPedInAnyVehicle(cache.ped, false) then
         TriggerEvent('nema_carwash:Notify', locale('title'), locale('car_inside'))
