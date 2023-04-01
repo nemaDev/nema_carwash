@@ -4,13 +4,13 @@ Wash = {}
 
 Wash.RadialMenu = true -- if you want to use ox_target set this to false
 Wash.WithAnimation = true -- water falling on the vehicle
-Wash.Ticket = false  -- if you wish to pay with money set to false
+Wash.Ticket = true  -- if you wish to pay with money set to false
 
-Wash.Duration = 5000 -- duration of vehicle washing
-Wash.PriceAmount = 2000 -- Price for washing the vehicle using money (Wash.Ticket = false)
+Wash.Duration = 10000 -- duration of vehicle washing
+Wash.PriceAmount = 300 -- Price for washing the vehicle using money (Wash.Ticket = false)
 Wash.TicketAmount = 1 -- amount to be removed from the ticket
 Wash.VehicleDistance = 3.5 -- distance from the vehicle to the washing machine
-Wash.targetIcon = 'fas fa-hands-bubbles' -- icon displayed in the ox target
+Wash.targetIcon = 'fas fa-hands-bubbles'
 Wash.TargetDistance = 2 -- ox target interaction distance
 
 Wash.Blips = {
@@ -19,19 +19,19 @@ Wash.Blips = {
         icon = 100,
         color = 4,
         scale = 1.0,
-        label = locale('title'),
+        label = locale('title'), -- if you wish to use blips with different names simply do this, eg: label = locale 'My carwash',
         size = vec3(6.0, 7.0, 2),
         heading = 50.5,
         debug = false,
         blip = true,
     },
     {
-        pos = vec3(24.9860, -1392.2036, 29.3339 ),
+        pos = vec3(24.4675, -1391.8799, 29.3333),
         icon = 100,
         color = 4,
         scale = 1.0,
         label = locale('title'),
-        size = vec3(6.0, 7.0, 2),
+        size = vec3(5, 7, 3),
         heading = 268.71707,
         debug = false,
         blip = true,
