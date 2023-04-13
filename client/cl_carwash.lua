@@ -1,6 +1,20 @@
 lib.locale()
 
 local Lavando = false
+local particles = false 
+local dist = 'cut_family2'
+local fxName = 'cs_fam2_ped_water_splash'
+
+function startParticles(coords)
+    Citizen.CreateThread(function()
+    while particles do
+        UseParticleFxAssetNextCall(dist) 
+        local particle = StartParticleFxLoopedAtCoord(fxName, coords, 0.0, 0.0, 0.0, 8.0, false, false, false, 0)
+        Wait(1000)
+    end 
+    RemoveNamedPtfxAsset(dist)
+end)
+end
 
 CreateThread(function()
     for k, v in pairs(Wash.Blips) do
@@ -113,19 +127,16 @@ AddEventHandler('nema_carwash:EmpezarLavado', function()
     else
         if Wash.Ticket then
             if ticket >= Wash.TicketAmount then
-
+                RequestNamedPtfxAsset(dist)
+while not HasNamedPtfxAssetLoaded(dist) do
+    Wait(1)
+end
                 TriggerServerEvent('nema_carwash:PagarLavado', ticket)
                 Lavando = true
                 if Wash.WithAnimation then
                     local vehcoords = GetEntityCoords(vehicle)
-                    local dist = 'cut_family2'
-                    local fxName = 'cs_fam2_ped_water_splash'
-                    RequestNamedPtfxAsset(dist)
-                    while not HasNamedPtfxAssetLoaded(dist) do
-                        Wait(1)
-                    end
-                    UseParticleFxAssetNextCall(dist)
-                    local particula = StartParticleFxLoopedAtCoord(fxName, vehcoords, 0.0, 0.0, 0.0, 8.0, false, false, false, 0)
+                    particles = true 
+                    startParticles(vehcoords)
                     if lib.progressBar({
                             duration = Wash.Duration,
                             label = locale('washing_veh'),
@@ -136,6 +147,7 @@ AddEventHandler('nema_carwash:EmpezarLavado', function()
                             }
                         })
                     then
+                        particles = false 
                         StopParticleFxLooped(particula, false)
                         SetVehicleDirtLevel(vehicle, 0.0)
                         WashDecalsFromVehicle(vehicle, 1.0)
@@ -164,19 +176,17 @@ AddEventHandler('nema_carwash:EmpezarLavado', function()
             end
         else
             if money >= Wash.PriceAmount then
-
+                RequestNamedPtfxAsset(dist)
+while not HasNamedPtfxAssetLoaded(dist) do
+    Wait(1)
+end
                 TriggerServerEvent('nema_carwash:PagarLavado', money)
                 Lavando = true
                 if Wash.WithAnimation then
-                    local vehcoords = GetEntityCoords(vehicle)
-                    local dist = 'cut_family2'
-                    local fxName = 'cs_fam2_ped_water_splash'
                     RequestNamedPtfxAsset(dist)
-                    while not HasNamedPtfxAssetLoaded(dist) do
-                        Wait(1)
-                    end
-                    UseParticleFxAssetNextCall(dist)
-                    local particula = StartParticleFxLoopedAtCoord(fxName, vehcoords, 0.0, 0.0, 0.0, 8.0, false, false, false, 0)
+                    local vehcoords = GetEntityCoords(vehicle)
+                    particles = true 
+                    startParticles(vehcoords)
                     if lib.progressBar({
                             duration = Wash.Duration,
                             label = locale('washing_veh'),
@@ -186,8 +196,8 @@ AddEventHandler('nema_carwash:EmpezarLavado', function()
                                 car = true,
                             }
                         })
-                    then
-                        StopParticleFxLooped(particula, false)
+                    then 
+                        particles = false 
                         SetVehicleDirtLevel(vehicle, 0.0)
                         WashDecalsFromVehicle(vehicle, 1.0)
                         Lavando = false
