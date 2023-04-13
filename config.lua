@@ -14,7 +14,7 @@ Wash.targetIcon = 'fas fa-hands-bubbles'
 Wash.TargetDistance = 2 -- ox target interaction distance
 
 Wash.Blips = {
-    ['1'] = {
+    {
         pos = vec3(169.25, -1717.0, 29.3016),
         icon = 100,
         color = 4,
@@ -33,7 +33,7 @@ Wash.Blips = {
         blip = false,
     },
 
-    ['2'] = {
+    {
         pos = vec3(24.4675, -1391.8799, 29.3333),
         icon = 100,
         color = 4,
@@ -45,7 +45,7 @@ Wash.Blips = {
         blip = true,
     },
 
-    ['3'] = {
+    {
         pos = vec3(1368.0, 3602.0, 35.0),
         icon = 100,
         color = 4,
@@ -57,7 +57,7 @@ Wash.Blips = {
         blip = true
     },
 
-    ['4'] = {
+    {
         pos = vec3(1696.0, 4916.0, 42.0),
         icon = 100,
         color = 4,
@@ -69,7 +69,7 @@ Wash.Blips = {
         blip = true
     },
 
-    ['5'] = {
+    {
         pos = vec3(-216.0, 6214.0, 31.0),
         icon = 100,
         color = 4,
