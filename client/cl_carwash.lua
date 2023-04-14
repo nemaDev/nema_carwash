@@ -7,13 +7,13 @@ local fxName = 'cs_fam2_ped_water_splash'
 
 function startParticles(coords)
     Citizen.CreateThread(function()
-    while particles do
-        UseParticleFxAssetNextCall(dist) 
-        local particle = StartParticleFxLoopedAtCoord(fxName, coords, 0.0, 0.0, 0.0, 8.0, false, false, false, 0)
-        Wait(1000)
-    end 
-    RemoveNamedPtfxAsset(dist)
-end)
+        while particles do
+            UseParticleFxAssetNextCall(dist)
+            local particle = StartParticleFxLoopedAtCoord(fxName, coords, 0.0, 0.0, 0.0, 8.0, false, false, false, 0)
+            Wait(1000)
+        end
+        RemoveNamedPtfxAsset(dist)
+    end)
 end
 
 CreateThread(function()
@@ -127,13 +127,14 @@ AddEventHandler('nema_carwash:EmpezarLavado', function()
     else
         if Wash.Ticket then
             if ticket >= Wash.TicketAmount then
-                RequestNamedPtfxAsset(dist)
-while not HasNamedPtfxAssetLoaded(dist) do
-    Wait(1)
-end
+
                 TriggerServerEvent('nema_carwash:PagarLavado', ticket)
                 Lavando = true
                 if Wash.WithAnimation then
+                    RequestNamedPtfxAsset(dist)
+                    while not HasNamedPtfxAssetLoaded(dist) do
+                        Wait(1)
+                    end
                     local vehcoords = GetEntityCoords(vehicle)
                     particles = true 
                     startParticles(vehcoords)
@@ -147,11 +148,11 @@ end
                             }
                         })
                     then
-                        particles = false 
-                        StopParticleFxLooped(particula, false)
+                        particles = false
                         SetVehicleDirtLevel(vehicle, 0.0)
                         WashDecalsFromVehicle(vehicle, 1.0)
                         Lavando = false
+                        Wait(2000)
                         TriggerEvent('nema_carwash:Notify', locale('title'), locale('finish_wash'))
                     end
                 else
@@ -176,14 +177,14 @@ end
             end
         else
             if money >= Wash.PriceAmount then
-                RequestNamedPtfxAsset(dist)
-while not HasNamedPtfxAssetLoaded(dist) do
-    Wait(1)
-end
+
                 TriggerServerEvent('nema_carwash:PagarLavado', money)
                 Lavando = true
                 if Wash.WithAnimation then
                     RequestNamedPtfxAsset(dist)
+                    while not HasNamedPtfxAssetLoaded(dist) do
+                        Wait(1)
+                    end
                     local vehcoords = GetEntityCoords(vehicle)
                     particles = true 
                     startParticles(vehcoords)
@@ -196,11 +197,12 @@ end
                                 car = true,
                             }
                         })
-                    then 
-                        particles = false 
+                    then
+                        particles = false
                         SetVehicleDirtLevel(vehicle, 0.0)
                         WashDecalsFromVehicle(vehicle, 1.0)
                         Lavando = false
+                        Wait(2000)
                         TriggerEvent('nema_carwash:Notify', locale('title'), locale('finish_wash'))
                     end
                 else
