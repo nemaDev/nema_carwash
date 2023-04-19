@@ -4,7 +4,9 @@ game 'gta5'
 
 name 'nema_carwash'
 
-author 'ameN#0001'
+author 'nemadev'
+
+version '1.0.0'
 
 repository 'https://github.com/NemaDev/nema_carwash'
 
