@@ -6,7 +6,7 @@ name 'nema_carwash'
 
 author 'nemadev'
 
-version '1.0.0'
+version '1.0.1'
 
 repository 'https://github.com/NemaDev/nema_carwash'
 
