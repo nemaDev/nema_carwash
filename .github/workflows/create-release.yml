@@ -39,13 +39,6 @@ jobs:
         with:
           tag-name: ${{ github.ref_name }}
 
-      - name: Bundle files
-        run: |
-          mkdir -p ./temp/nema_carwash
-          cp ./{LICENSE,README.md,fxmanifest.lua,config.lua} ./temp/nema_carwash
-          cp -r ./{client,server,stream,locales} ./temp/nema_carwash
-          cd ./temp && zip -r ../nema_carwash.zip ./nema_carwash
-
       - name: Create Release
         uses: 'marvinpinto/action-automatic-releases@v1.2.1'
         id: auto_release
