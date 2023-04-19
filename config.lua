@@ -4,7 +4,7 @@ Wash = {}
 
 Wash.RadialMenu = true -- if you want to use ox_target set this to false
 Wash.WithAnimation = true -- water falling on the vehicle
-Wash.Ticket = false  -- if you wish to pay with money set to false
+Wash.Ticket = true  -- if you wish to pay with money set to false
 
 Wash.Duration = 10000 -- duration of vehicle washing
 Wash.PriceAmount = 300 -- Price for washing the vehicle using money (Wash.Ticket = false)
