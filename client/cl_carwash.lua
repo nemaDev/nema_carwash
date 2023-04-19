@@ -1,7 +1,7 @@
 lib.locale()
 
 local Lavando = false
-local particles = false 
+local particles = false
 local dist = 'cut_family2'
 local fxName = 'cs_fam2_ped_water_splash'
 
