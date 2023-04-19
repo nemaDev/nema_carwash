@@ -43,7 +43,7 @@ jobs:
         run: |
           mkdir -p ./temp/nema_carwash
           cp ./{LICENSE,README.md,fxmanifest.lua} ./temp/nema_carwash
-          cp -r ./{client,server,config,locales} ./temp/nema_carwash
+          cp -r ./{client,server,config.lua,locales} ./temp/nema_carwash
           cd ./temp && zip -r ../nema_carwash.zip ./nema_carwash
       - name: Create Release
         uses: 'marvinpinto/action-automatic-releases@v1.2.1'
