@@ -1,6 +1,6 @@
-lib.locale()
-
 Wash = {}
+
+lib.locale()
 
 Wash.RadialMenu = true -- if you want to use ox_target set this to false
 Wash.WithAnimation = true -- water falling on the vehicle
