@@ -16,27 +16,3 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
-
-      - name: Create GitHub release
-        id: create-new-release
-        uses: actions/create-release@v1
-        env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-        tag_name: ${{ github.run_number }}
-        release_name: Release ${{ github.run_number }}
-
-        - name: Archive nema_carwash content
-        uses: thedoctor0/zip-release@master
-        with:
-        filename: nema_carwash.zip
-
-        - name: Upload release asset
-        uses: actions/upload-release-asset@v1
-        env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-        upload_url: ${{ steps.create-new-release.outputs.upload_url }}
-        asset_path: ./nema_carwash.zip
-        asset_name: nema_carwash-v${{ github.run_number }}.zip
-        asset_content_type: application/zip
